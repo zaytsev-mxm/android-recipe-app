@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "dev.maxiscoding.myrecipeapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "dev.maxiscoding.myrecipeapp"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
