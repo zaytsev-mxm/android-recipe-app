@@ -9,7 +9,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 data class RecipeState(
-    var isLoading: Boolean = true,
+    var isLoading: Boolean = false,
     var categories: List<Category> = listOf(),
     val error: String? = null
 )
@@ -20,6 +20,16 @@ class MyRecipeViewModel : ViewModel() {
             get() = _categoriesState
 
     init {
+        try {
+            fetchCategories()
+        } catch (e: Exception) {
+            println(e.message)
+        }
+    }
+
+    private fun fetchCategories() {
+        _categoriesState = _categoriesState.copy(isLoading = true)
+
         viewModelScope.launch {
             delay(3000)
             try {
