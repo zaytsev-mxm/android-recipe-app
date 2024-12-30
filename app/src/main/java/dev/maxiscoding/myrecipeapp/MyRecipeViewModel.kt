@@ -5,16 +5,35 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class MyRecipeViewModel: ViewModel() {
-    private var _categories by mutableStateOf(CategoriesResponse())
-    val categories: CategoriesResponse
-        get() = _categories
+data class RecipeState(
+    var isLoading: Boolean = true,
+    var categories: List<Category> = listOf(),
+    val error: String? = null
+)
+
+class MyRecipeViewModel : ViewModel() {
+    private var _categoriesState by mutableStateOf(RecipeState())
+    val categoriesState: RecipeState
+            get() = _categoriesState
 
     init {
         viewModelScope.launch {
-            _categories = recipeService.getCategories()
+            delay(3000)
+            try {
+                val response = recipeService.getCategories()
+                _categoriesState = _categoriesState.copy(
+                    isLoading = false,
+                    categories = response.categories
+                )
+            } catch (e: Exception) {
+                _categoriesState = _categoriesState.copy(
+                    isLoading = false,
+                    error = e.message
+                )
+            }
         }
     }
 }
