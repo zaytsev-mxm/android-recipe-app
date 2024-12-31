@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     Box(
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        MyRecipeScreen(viewModel)
+                        AppRoot(viewModel)
                     }
                 }
             }
