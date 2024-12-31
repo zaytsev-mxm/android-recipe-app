@@ -1,9 +1,8 @@
 package dev.maxiscoding.myrecipeapp.ui.components.category
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,13 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -32,7 +29,8 @@ fun CategoryCard(category: Category, onCategoryClick: (String) -> Unit) {
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(32.dp))
             .padding(8.dp)
-            .background(Color(0xFF7DCEA0), shape = RoundedCornerShape(16.dp)),
+            .background(Color(0xFF7DCEA0), shape = RoundedCornerShape(16.dp))
+            .clickable { onCategoryClick(category.idCategory) },
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -43,9 +41,7 @@ fun CategoryCard(category: Category, onCategoryClick: (String) -> Unit) {
                 contentDescription = null,
                 modifier = Modifier.size(128.dp)
             )
-            TextButton(onClick = { onCategoryClick(category.idCategory) }) {
-                Text(category.strCategory, fontSize = 18.sp)
-            }
+            Text(category.strCategory, fontSize = 18.sp)
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
