@@ -15,12 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import dev.maxiscoding.myrecipeapp.MyRecipeViewModel
+import dev.maxiscoding.myrecipeapp.Category
 
 @Composable
 fun CategoryDetailsScreen(
-    viewModel: MyRecipeViewModel,
-    categoryId: String,
+    category: Category?,
     onBackClick: () -> Unit
 ) {
     Column(
@@ -28,8 +27,6 @@ fun CategoryDetailsScreen(
             .padding(16.dp)
             .fillMaxSize()
     ) {
-        val category = viewModel.categoriesState.categories.find { it.idCategory == categoryId }
-
         Text("Category: ${category?.strCategory ?: "N/A"}", fontSize = 24.sp)
         Spacer(modifier = Modifier.height(16.dp))
         Image(

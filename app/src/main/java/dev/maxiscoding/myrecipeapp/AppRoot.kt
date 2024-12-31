@@ -22,7 +22,11 @@ fun AppRoot(viewModel: MyRecipeViewModel) {
 
     NavHost(navController = navController, startDestination = Screen.CategoriesList.route) {
         composable(Screen.CategoriesList.route) {
-            CategoriesListScreen(viewModel) { categoryId ->
+            CategoriesListScreen(
+                isLoading = viewModel.categoriesState.isLoading,
+                categories = viewModel.categoriesState.categories,
+                errorMessage = viewModel.categoriesState.error
+            ) { categoryId ->
                 navController.navigate(Screen.CategoryDetails.createRoute(categoryId))
             }
         }
@@ -32,11 +36,8 @@ fun AppRoot(viewModel: MyRecipeViewModel) {
             arguments = listOf(navArgument("categoryId") { type = NavType.StringType })
         ) {
             val categoryId = it.arguments?.getString("categoryId") ?: "999"
-            CategoryDetailsScreen(
-                viewModel = viewModel,
-                categoryId = categoryId,
-                onBackClick = { navController.popBackStack() }
-            )
+            val category = viewModel.categoriesState.categories.find { it.idCategory == categoryId }
+            CategoryDetailsScreen(category) { navController.popBackStack() }
         }
     }
 }

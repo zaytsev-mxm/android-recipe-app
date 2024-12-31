@@ -10,13 +10,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.maxiscoding.myrecipeapp.MyRecipeViewModel
+import dev.maxiscoding.myrecipeapp.Category
 import dev.maxiscoding.myrecipeapp.ui.components.ErrorMessage
 import dev.maxiscoding.myrecipeapp.ui.components.Loader
 import dev.maxiscoding.myrecipeapp.ui.components.category.CategoriesList
 
 @Composable
-fun CategoriesListScreen(viewModel: MyRecipeViewModel, onCategoryClick: (String) -> Unit) {
+fun CategoriesListScreen(
+    isLoading: Boolean = false,
+    categories: List<Category> = listOf(),
+    errorMessage: String?,
+    onCategoryClick: (String) -> Unit
+) {
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -24,14 +29,17 @@ fun CategoriesListScreen(viewModel: MyRecipeViewModel, onCategoryClick: (String)
     ) {
         Text("My Recipe", fontSize = 40.sp)
         Spacer(modifier = Modifier.height(32.dp))
-        if (viewModel.categoriesState.isLoading) {
+        if (isLoading) {
             Loader()
         }
-        if (viewModel.categoriesState.categories.isNotEmpty()) {
-            CategoriesList(viewModel.categoriesState.categories) { categoryId -> onCategoryClick(categoryId) }
+        if (categories.isNotEmpty()) {
+            CategoriesList(categories) { categoryId ->
+                onCategoryClick(
+                    categoryId
+                )
+            }
         }
-        if (viewModel.categoriesState.error != null) {
-            val errorMessage = viewModel.categoriesState.error ?: ""
+        if (errorMessage != null) {
             ErrorMessage(errorMessage)
         }
     }
